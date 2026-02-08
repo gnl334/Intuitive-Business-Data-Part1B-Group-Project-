@@ -1,3 +1,12 @@
+Cloud_Serves_1_Usage = 0.5
+Cloud_Serves_2_Usage = 0.1
+
+def get_data(channel_name):
+    if channel_name == "Cloud_Serves_1:Usage":
+        return Cloud_Serves_1_Usage
+    if channel_name == "Cloud_Serves_2:Usage":
+        return Cloud_Serves_2_Usage
+
 class Node:
     def __init__(self):
         pass
@@ -40,8 +49,9 @@ class TICKET(Node):
         self.receiver = node_object["Receiver"]
 
     def compute(self, args):
-        print(self.receiver)
-        print(self.description)
+        if args[0]:
+            print(self.receiver)
+            print(self.description)
         return 0
     
 class INPUT(Node):
@@ -51,7 +61,7 @@ class INPUT(Node):
         self.channel = node_object["Input Channel"]
 
     def compute(self, args):
-        return 0 # Fix this
+        return get_data(f'{self.provider}:{self.channel}')
     
 def assign_node(type, node):
     

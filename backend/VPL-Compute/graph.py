@@ -1,3 +1,5 @@
+import copy
+
 class Graph:
     def __init__(self, connections):
         self.out_set = self.out_edge_list(connections)
@@ -26,19 +28,23 @@ class Graph:
         self.in_set[edge_end].remove(edge_start)
 
     def DAG_sort(self, start_nodes):
-        print(self.out_set, self.in_set)
+        out_set = copy.deepcopy(self.out_set)
+        in_set = copy.deepcopy(self.in_set)
         sorted_order = []
         nodes = start_nodes.copy()
         while len(nodes) > 0:
             node = nodes.pop()
             sorted_order.append(node)
             try:
-                for output_node in self.out_set[node][:]:
+                for output_node in self.out_set[node].copy():
                     self.remove_edge(node, output_node)
                     if len(self.in_set[output_node]) == 0:
                         nodes.append(output_node)
             except:
                 pass
+
+        self.out_set = out_set
+        self.in_set = in_set
 
         return sorted_order
 
