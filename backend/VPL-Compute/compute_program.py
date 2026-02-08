@@ -3,11 +3,24 @@ import os
 from nodes import *
 from pass_program import convert_program
 
+###### A method to compute the output of programs
 def compute_program(program):
+
+###### The list of output values for each node
     node_values = []
 
+###### Run though all the nodes in DAG order
     for node, inputs in zip(program["nodes"], program["inputs"]):
         node_values.append(node.compute([node_values[i] for i in inputs]))
+
+
+
+
+
+
+
+
+###### Test Execution
 
 if __name__ == '__main__':
 

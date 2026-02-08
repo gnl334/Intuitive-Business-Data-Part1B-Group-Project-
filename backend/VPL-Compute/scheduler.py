@@ -23,16 +23,29 @@ if __name__ == "__main__":
         
         for file_path in new_program_file_paths:
 
-            print(file_path)
+            file_name = file_path.split('/')[-1]
 
             with open(file_path, 'r') as program_file:
                 programs.append(convert_program(json.load(program_file)))
             
-            os.rename(file_path, dir_path + "/data/programs/" + file_path[137:])
+            os.rename(file_path, dir_path + "/data/programs/" + file_name)
 
         for program in programs:
             compute_program(program)
 
         remove_program_file_paths = glob(dir_path + "/data/remove-programs/*.json")
+
+        for file_path in remove_program_file_paths:
+
+            file_name = file_path.split('/')[-1]
+
+            with open(file_path, 'r') as remove_file:
+                json.load(remove_file)
+                for program in programs:
+                    if program["name"] == remove_file["Policy Name"]:
+                        programs.remove(program)
+
+            os.remove(file_path)
+            os.remove(dir_path + "/data/new-programs/" + file_name)
 
         time.sleep(10)

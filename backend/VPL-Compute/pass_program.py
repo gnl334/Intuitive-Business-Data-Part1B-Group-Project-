@@ -20,7 +20,8 @@ def convert_program(json_program):
 
     output_program = {
         "nodes": [0 for _ in range(len(sorted_order))],
-        "inputs": [[] for _ in range(len(sorted_order))]
+        "inputs": [[] for _ in range(len(sorted_order))],
+        "name": json_program["Policy Name"]
     }
 
 
@@ -33,6 +34,21 @@ def convert_program(json_program):
 
     return output_program
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###### Test Execution
 
 if __name__ == "__main__":
     

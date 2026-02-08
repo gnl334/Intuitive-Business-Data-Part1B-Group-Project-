@@ -1,9 +1,17 @@
+###### Copy is imported because we require deepcopying dictionaries 
 import copy
 
+
+###### Graph object to be used for manipulating programs
 class Graph:
     def __init__(self, connections):
         self.out_set = self.out_edge_list(connections)
         self.in_set = self.in_edge_list(connections)
+        ## Converting into a more efficient representation
+
+
+
+###### Converting representation functions 
 
     def out_edge_list(self, connections):
         list = {}
@@ -27,6 +35,10 @@ class Graph:
         self.out_set[edge_start].remove(edge_end)
         self.in_set[edge_end].remove(edge_start)
 
+
+
+###### DAG sort so that execution happens in the correct order
+
     def DAG_sort(self, start_nodes):
         out_set = copy.deepcopy(self.out_set)
         in_set = copy.deepcopy(self.in_set)
@@ -48,6 +60,21 @@ class Graph:
 
         return sorted_order
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###### Test Execution
 
 if __name__ == '__main__':
     connections = [

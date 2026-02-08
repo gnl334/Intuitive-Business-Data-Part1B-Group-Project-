@@ -1,3 +1,5 @@
+###### Used for testing
+
 Cloud_Serves_1_Usage = 0.5
 Cloud_Serves_2_Usage = 0.1
 
@@ -6,6 +8,13 @@ def get_data(channel_name):
         return Cloud_Serves_1_Usage
     if channel_name == "Cloud_Serves_2:Usage":
         return Cloud_Serves_2_Usage
+
+###### End section for testing
+
+
+
+
+##### A node of computation
 
 class Node:
     def __init__(self):
@@ -71,6 +80,11 @@ class OUTPUT(Node):
         print(args)
         return 0
     
+
+
+
+###### This is a function for assign nodes to the correct type
+
 def assign_node(type, node):
     
     if type == "Add":
