@@ -109,3 +109,60 @@ CREATE TABLE cost_entity (
     entity_type TEXT,
     display_name TEXT
 );
+
+INSERT OR IGNORE INTO cost_entity
+SELECT DISTINCT
+  CASE
+    WHEN ProviderName != "Google Cloud" THEN ProviderName || '::' || SubAccountName
+    WHEN business_unit IS NOT NULL THEN 'GCP::' || business_unit
+    WHEN application IS NOT NULL THEN 'GCP::' || application
+    ELSE 'GCP::Unassigned'
+  END AS cost_entity_id,
+
+  ProviderName AS provider,
+
+  CASE
+    WHEN ProviderName != "Google Cloud" THEN 'subAccount'
+    WHEN business_unit IS NOT NULL THEN 'business_unit'   
+    WHEN application IS NOT NULL THEN 'application'
+    ELSE 'unattributed'
+  END AS entity_type,
+
+  CASE
+    WHEN ProviderName != "Google Cloud" THEN SubAccountName
+    WHEN business_unit IS NOT NULL THEN business_unit
+    WHEN application IS NOT NULL THEN application
+    ELSE 'Unattributed (GCP)'
+  END AS display_name
+FROM focus_with_tags;
+
+CREATE TABLE service (
+    service_id TEXT PRIMARY KEY,
+    provider TEXT
+);
+
+INSERT OR IGNORE INTO service
+SELECT DISTINCT
+ServiceName AS service_id,
+ProviderName as provider
+FROM focus_raw;
+
+-- need to check what other rows are relevant, for example is ChargeCategory relevant?
+
+CREATE TABLE focus_usage_cost (
+    id INT PRIMARY KEY,
+    time DATETIME,
+    cost_entity_id TEXT,
+    service_id TEXT,
+    serviceCategory TEXT,
+    region TEXT,
+    usage_quantity REAL,
+    usage_unit TEXT,
+    cost REAL,
+    currency TEXT,
+    description TEXT,
+    FOREIGN KEY (cost_entity_id) REFERENCES cost_entity(cost_entity_id),
+    FOREIGN KEY (service_id) REFERENCES service(service_id)
+)
+
+-- populate the cut down version of the table
