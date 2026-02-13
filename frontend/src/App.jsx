@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AIdashboard from "./pages/AIdashboard";
 import PolicyCreator from "./pages/PolicyCreator";
 import ServiceViewer from "./pages/ServiceViewer";
+import TempPage from "./pages/TempPage";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/ai-dashboard" element={<AIdashboard />} />
             <Route path="/policy-editor" element={<PolicyCreator />} />
             <Route path="/service-viewer" element={<ServiceViewer />} />
+            <Route path="/db-test" element={<TempPage />} />
         </Routes>
     );
 }
